@@ -10,3 +10,14 @@ backend/data/perfiles/
 .verification/
 
 .publicacion-tmp/
+
+# Exclusiones de publicación
+.env
+AGENTS.md
+PROGRESO.md
+respaldo*.sql
+uploads/
+docs/pruebas-*.json
+docs/ARCHIVOS_MODIFICADOS.md
+publicacion-pendiente.bundle
+.publicacion-tmp/

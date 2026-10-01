@@ -50,4 +50,10 @@ Referencia de código: HEAD `dd28a947059112b79c4b8d934689d786bfd0658c`. Completo
 
 ## Pendientes
 
-Editar/baja de clientes: Pendiente; los cambios locales sin commit y V4 no se exportan. También quedan pendientes permisos editables, caducidad de contraseñas temporales, correo transaccional, HTTPS de producción, aviso de privacidad, bitácora visible, asociaciones empresa/taller y regresión automatizada en CI. No se ejecutaron pruebas funcionales ni builds en esta publicación documental.
+Editar/baja de clientes: Pendiente; los cambios locales sin commit y V4 no se exportan. También quedan pendientes permisos editables, caducidad de contraseñas temporales, correo transaccional, HTTPS de producción, aviso de privacidad, bitácora visible, asociaciones empresa/taller y regresión automatizada en CI. Frontend verificado con npm ci y npm run build: 1613 módulos; build correcto. No se ejecutaron pruebas funcionales del backend en esta sesión.
+
+### Verificación de publicación
+
+Bundle aplicado limpiamente sobre main. Recuperadas desde HEAD las tres vistas LoginView, RecoveryView y RegisterView, con correos example.com, y los dos scripts de verificación sin contraseñas literales. Frontend: npm ci y npm run build correctos (1613 módulos). PNG retirado: después de dos intentos persistió un recorte visual del sello; se conserva el HTML de Archify y su enlace. No se ejecutaron pruebas funcionales del backend. GitHub Pages requiere comprobar su despliegue por separado.
+
+Los scripts requieren BOOTSTRAP_ADMIN_PASSWORD y TEST_PASSWORD_1 a TEST_PASSWORD_5 en el entorno. En verify-fase-0.2.ps1: 1 inválida, 2 válida, 3 débil, 4 válida y 5 válida; en verify-phases.cjs: 1 válida inicial, 2 inválida, 3 válida distinta, 4 débil y 5 confirmación distinta. No se publican valores de contraseñas. Playwright se instaló únicamente en la carpeta temporal para revisar las capturas; no es dependencia del proyecto.

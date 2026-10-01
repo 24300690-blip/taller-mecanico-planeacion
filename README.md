@@ -18,8 +18,8 @@ Aplicación escolar para acceso seguro y administración de clientes de un talle
 
 - backend/: API Kotlin, Maven Wrapper y migraciones V1–V3.
 - frontend/: vistas, componentes y servicios Facade.
-- scripts/: utilidades de verificación y reproducción del diagrama; algunas pueden excluirse por el escaneo de publicación.
-- docs/arquitectura/: HTML, fuente JSON y captura completa.
+- scripts/: utilidades de verificación y reproducción del diagrama; verificaciones con contraseñas suministradas por variables de entorno.
+- docs/arquitectura/: HTML y fuente JSON; PNG retirado tras dos intentos de captura con recortes visuales.
 
 ## Requisitos y ejecución
 
@@ -104,12 +104,11 @@ Para reproducir el HTML se requiere Archify 3.0.1 externo; el script render-arch
 
 ## Pendientes
 
-Editar/baja de clientes: Pendiente; los cambios locales sin commit y V4 no se exportan. También quedan pendientes permisos editables, caducidad de contraseñas temporales, correo transaccional, HTTPS de producción, aviso de privacidad, bitácora visible, asociaciones empresa/taller y regresión automatizada en CI. No se ejecutaron pruebas funcionales ni builds en esta publicación documental.
+Editar/baja de clientes: Pendiente; los cambios locales sin commit y V4 no se exportan. También quedan pendientes permisos editables, caducidad de contraseñas temporales, correo transaccional, HTTPS de producción, aviso de privacidad, bitácora visible, asociaciones empresa/taller y regresión automatizada en CI. Frontend verificado con npm ci y npm run build: 1613 módulos; build correcto. No se ejecutaron pruebas funcionales del backend en esta sesión.
 
-### Exclusiones del escaneo de publicación
 
-Se excluyeron scripts/verify-fase-0.2.ps1 y scripts/verify-phases.cjs por contraseñas literales, y frontend/src/views/LoginView.vue, RecoveryView.vue y RegisterView.vue por direcciones fuera de los dominios permitidos. El frontend exportado no puede compilar hasta recuperar versiones saneadas y confirmadas de esas tres vistas. El código local original permanece intacto. El commit histórico conserva un correo de autor/committer; no se reescribió el historial. La coincidencia de BOOTSTRAP_ADMIN_EMAIL corresponde al dominio permitido taller.local de la plantilla.
+### Verificación de publicación
 
-### Estado de publicación
+Bundle aplicado limpiamente sobre main. Recuperadas desde HEAD las tres vistas LoginView, RecoveryView y RegisterView, con correos example.com, y los dos scripts de verificación sin contraseñas literales. Frontend: npm ci y npm run build correctos (1613 módulos). PNG retirado: después de dos intentos persistió un recorte visual del sello; se conserva el HTML de Archify y su enlace. No se ejecutaron pruebas funcionales del backend. GitHub Pages requiere comprobar su despliegue por separado.
 
-PNG pendiente de aprobación visual: la captura completa del navegador presenta duplicaciones después de dos correcciones. HTML regenerado una vez con Archify; sello y comprobaciones automatizadas de navegador correctos. El flujo de consulta se describe en las tarjetas de clientes y capas; no tiene una tarjeta independiente titulada como flujo. Publicación y Pages pendientes de credencial Git con permiso de escritura; no se cambia visibilidad ni historial.
+Los scripts requieren BOOTSTRAP_ADMIN_PASSWORD y TEST_PASSWORD_1 a TEST_PASSWORD_5 en el entorno. En verify-fase-0.2.ps1: 1 inválida, 2 válida, 3 débil, 4 válida y 5 válida; en verify-phases.cjs: 1 válida inicial, 2 inválida, 3 válida distinta, 4 débil y 5 confirmación distinta. No se publican valores de contraseñas. Playwright se instaló únicamente en la carpeta temporal para revisar las capturas; no es dependencia del proyecto.
