@@ -109,3 +109,7 @@ Editar/baja de clientes: Pendiente; los cambios locales sin commit y V4 no se ex
 ### Exclusiones del escaneo de publicación
 
 Se excluyeron scripts/verify-fase-0.2.ps1 y scripts/verify-phases.cjs por contraseñas literales, y frontend/src/views/LoginView.vue, RecoveryView.vue y RegisterView.vue por direcciones fuera de los dominios permitidos. El frontend exportado no puede compilar hasta recuperar versiones saneadas y confirmadas de esas tres vistas. El código local original permanece intacto. El commit histórico conserva un correo de autor/committer; no se reescribió el historial. La coincidencia de BOOTSTRAP_ADMIN_EMAIL corresponde al dominio permitido taller.local de la plantilla.
+
+### Estado de publicación
+
+PNG pendiente de aprobación visual: la captura completa del navegador presenta duplicaciones después de dos correcciones. HTML regenerado una vez con Archify; sello y comprobaciones automatizadas de navegador correctos. El flujo de consulta se describe en las tarjetas de clientes y capas; no tiene una tarjeta independiente titulada como flujo. Publicación y Pages pendientes de credencial Git con permiso de escritura; no se cambia visibilidad ni historial.
