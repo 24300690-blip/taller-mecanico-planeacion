@@ -1,0 +1,2 @@
+app:
+  recovery-log-link: ${RECOVERY_LOG_LINK:true}

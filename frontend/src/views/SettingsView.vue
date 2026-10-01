@@ -1,0 +1,16 @@
+<script setup lang="ts">
+import {ref} from 'vue'
+import Swal from 'sweetalert2'
+import Avatar from '../components/Avatar.vue'
+import PasswordForm from '../components/PasswordForm.vue'
+import {authState} from '../services/auth'
+import {UsuarioFacade} from '../services/UsuarioFacade'
+const modal=ref(false),theme=ref(document.documentElement.dataset.theme||'light'),busy=ref(false)
+/** Persiste el tema usado antes del primer render. */
+function setTheme(value:string){theme.value=value;localStorage.setItem('taller-theme',value);document.documentElement.dataset.theme=value}
+/** Valida y actualiza la fotografía propia. */
+async function changePhoto(event:Event){const input=event.target as HTMLInputElement,file=input.files?.[0];if(!file)return;busy.value=true;try{if(file.size>15*1024*1024||!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Elige JPG, PNG o WEBP de hasta 15 MB');await UsuarioFacade.photo(file);await Swal.fire({icon:'success',title:'Foto actualizada'})}catch(e){await Swal.fire({icon:'error',title:'No se pudo guardar',text:(e as Error).message})}finally{busy.value=false;input.value=''}}
+/** Confirma la eliminación y actualiza avatares. */
+async function remove(){if(!(await Swal.fire({title:'¿Quitar foto?',icon:'question',showCancelButton:true,confirmButtonText:'Quitar',cancelButtonText:'Cancelar'})).isConfirmed)return;try{await UsuarioFacade.removePhoto();await Swal.fire({icon:'success',title:'Foto eliminada'})}catch(e){await Swal.fire({icon:'error',title:'No se pudo quitar',text:(e as Error).message})}}
+</script>
+<template><div class="settings stack"><header><span class="eyebrow">Tu espacio</span><h1>Configuración</h1></header><section class="card"><h2>Foto de perfil</h2><div class="profile-inline"><Avatar/><div><h3>{{authState.user?.fullName}}</h3><p class="mono">{{authState.user?.email}}</p><span class="chip">{{authState.user?.role}}</span></div></div><div class="actions"><label class="primary file-button">Cambiar foto<input type="file" accept="image/jpeg,image/png,image/webp" :disabled="busy" @change="changePhoto"/></label><button class="secondary" :disabled="!authState.photo||busy" @click="remove">Quitar</button></div><p class="muted">JPG, PNG o WEBP · máximo 15 MB</p></section><section class="card"><h2>Apariencia</h2><p class="muted">Elige cómo quieres ver tu espacio de trabajo.</p><div class="theme-options"><button v-for="option in [{value:'light',label:'Claro'},{value:'dark',label:'Oscuro'}]" :key="option.value" :aria-pressed="theme===option.value" :class="['theme-tile',option.value,{selected:theme===option.value}]" @click="setTheme(option.value)"><span class="theme-preview"><i/><span><b/><b/></span></span>{{option.label}}</button></div></section><section class="card password-card"><h2>Contraseña</h2><p class="muted">Actualiza tu contraseña para proteger tu cuenta.</p><button class="secondary" @click="modal=true">Cambiar contraseña</button></section><div v-if="modal" class="overlay" @click.self="modal=false" @keydown.esc="modal=false"><section class="card modal" role="dialog" aria-modal="true" aria-labelledby="password-title"><button class="close" @click="modal=false">Cerrar ×</button><h2 id="password-title">Cambiar contraseña</h2><PasswordForm @done="modal=false" @cancel="modal=false"/></section></div></div></template>

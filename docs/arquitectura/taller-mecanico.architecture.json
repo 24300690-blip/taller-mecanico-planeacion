@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "taller uno — cómo funciona",
+    "subtitle": "Personas, pantallas y datos · Estado real de las fases 1, 2 y 3",
+    "output": "taller-mecanico.html",
+    "quality_profile": "standard",
+    "visual_preset": "editorial",
+    "animation": "none",
+    "legend": {
+      "mode": "all",
+      "entries": {
+        "frontend": {
+          "label": "Pantallas y servicios · lavanda"
+        },
+        "backend": {
+          "label": "Reglas y seguridad · azul"
+        },
+        "database": {
+          "label": "Datos y migraciones · verde"
+        },
+        "cloud": {
+          "label": "Entrada y archivos · durazno"
+        },
+        "external": {
+          "label": "Modelo futuro · amarillo"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "pantallas",
+      "type": "frontend",
+      "label": "Tu espacio (Vue)",
+      "sublabel": "Menú · Inicio por rol · pantallas",
+      "pos": [
+        40,
+        150
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "facade",
+      "type": "frontend",
+      "label": "Mensajero (Facade)",
+      "sublabel": "auth · ClienteFacade · UsuarioFacade",
+      "pos": [
+        350,
+        150
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "nginx",
+      "type": "cloud",
+      "label": "Entrada (nginx)",
+      "sublabel": "Build Vue · /api → backend:8081",
+      "pos": [
+        660,
+        150
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "seguridad",
+      "type": "backend",
+      "label": "Acceso (JWT / RBAC)",
+      "sublabel": "Activo · versión · primer acceso",
+      "pos": [
+        970,
+        150
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "controller",
+      "type": "backend",
+      "label": "Recepción (Controller)",
+      "sublabel": "Auth · Clientes · Usuarios · Perfil",
+      "pos": [
+        970,
+        400
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "service",
+      "type": "backend",
+      "label": "Reglas (Service)",
+      "sublabel": "Validar · BCrypt · revocar · guardar",
+      "pos": [
+        660,
+        400
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "repository",
+      "type": "backend",
+      "label": "Archivo (Repository)",
+      "sublabel": "Interfaces Spring Data JPA",
+      "pos": [
+        350,
+        400
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "mysql",
+      "type": "database",
+      "label": "Datos (MySQL)",
+      "sublabel": "Usuarios · clientes · sesiones",
+      "pos": [
+        40,
+        400
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "flyway",
+      "type": "database",
+      "label": "Cambios (Flyway)",
+      "sublabel": "V1 → V2 → V3 al arrancar",
+      "pos": [
+        40,
+        650
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "futuro",
+      "type": "external",
+      "label": "Siguiente (modelo)",
+      "sublabel": "Empresa · taller · cliente_taller",
+      "pos": [
+        350,
+        650
+      ],
+      "size": [
+        240,
+        110
+      ]
+    },
+    {
+      "id": "photo",
+      "type": "cloud",
+      "label": "Fotos (disco privado)",
+      "sublabel": "UUID · JPG / PNG / WEBP · 15 MB",
+      "pos": [
+        660,
+        650
+      ],
+      "size": [
+        240,
+        110
+      ]
+    }
+  ],
+  "boundaries": [],
+  "connections": [
+    {
+      "id": "uno",
+      "from": "pantallas",
+      "to": "facade",
+      "label": "1 · solicita",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "dos",
+      "from": "facade",
+      "to": "nginx",
+      "label": "2 · envía /api",
+      "fromSide": "right",
+      "toSide": "left",
+      "labelAt": [
+        625,
+        125
+      ]
+    },
+    {
+      "id": "tres",
+      "from": "nginx",
+      "to": "seguridad",
+      "label": "3 · verifica",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "cuatro",
+      "from": "seguridad",
+      "to": "controller",
+      "label": "4 · autoriza",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1130,
+        330
+      ]
+    },
+    {
+      "id": "cinco",
+      "from": "controller",
+      "to": "service",
+      "label": "5 · valida",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "seis",
+      "from": "service",
+      "to": "repository",
+      "label": "6 · persiste",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "siete",
+      "from": "repository",
+      "to": "mysql",
+      "label": "7 · SQL",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "ocho",
+      "from": "flyway",
+      "to": "mysql",
+      "label": "8 · migra",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "labelAt": [
+        200,
+        580
+      ]
+    },
+    {
+      "id": "nueve",
+      "from": "service",
+      "to": "photo",
+      "label": "9 · guarda foto",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        820,
+        580
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "Cómo leer este diagrama",
+      "items": [
+        "1. Empieza en Tu espacio y sigue las flechas numeradas del 1 al 9.",
+        "2. Cada color identifica una capa; las flechas muestran a quién pide ayuda.",
+        "3. Lee debajo los recorridos y permisos; Futuro todavía no tiene pantallas ni API."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Glosario breve",
+      "items": [
+        "API: puerta que recibe solicitudes de las pantallas. JWT: comprobante de sesión firmado y de duración corta.",
+        "RBAC: permisos según el rol. Proxy: intermediario que dirige /api al backend.",
+        "Migración: cambio versionado de tablas. Repositorio: interfaz para leer y guardar datos.",
+        "Facade: servicio que simplifica las llamadas de una vista. BCrypt: hash usado para verificar contraseñas. Refresh: cookie que renueva la sesión."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Flujo de registro de cliente",
+      "items": [
+        "Recepción o Administración abre Registrar cliente desde el menú o Inicio.",
+        "Captura datos personales, contacto y dirección; añade una foto opcional al final y confirma.",
+        "ClienteFacade.create envía multipart y JWT; nginx admite hasta 16 MB por solicitud.",
+        "ClienteController → ClienteService valida mayoría de edad, formatos, duplicados y foto; Repository persiste en MySQL.",
+        "El archivo usa UUID bajo CLIENTES_PHOTO_DIR. La API devuelve 201, 400, 409 o 413 según el resultado."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Capas y comunicación",
+      "items": [
+        "Vue usa AppShell para pantallas internas y conserva el acceso dividido; primer acceso no muestra menú.",
+        "Las vistas llaman servicios/Facade, que agregan JWT y renuevan la cookie HttpOnly de forma silenciosa.",
+        "nginx.conf sirve frontend/dist en 8088 y dirige /api a host.docker.internal:8081; límite 16 MB y cabeceras básicas.",
+        "JwtFilter consulta el usuario: bloquea inactivos, versiones revocadas y acciones ajenas al primer acceso.",
+        "Controller → Service → Repository. Solo el servicio accede a persistencia para las operaciones nuevas.",
+        "MySQL guarda rutas de fotos; los bytes permanecen en disco y se descargan por endpoints protegidos."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Menú, Inicio y clientes",
+      "items": [
+        "Menú: iconos en 76 px; hamburguesa/hover despliegan 250 px; drawer en móvil. Configuración y Salir están al fondo.",
+        "Inicio muestra perfil, fecha, correo, rol y cantidad real de tarjetas; sin lista de clientes ni cifras inventadas.",
+        "Clientes busca q por nombre, teléfono o correo, pagina cinco filas y abre detalle/foto en panel lateral.",
+        "403 y 404 permanecen dentro de AppShell; un refresh fallido avisa que la sesión expiró."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Alta, baja y restablecimiento de usuarios",
+      "items": [
+        "Solo Administración consulta /api/usuarios y abre Dar de alta usuario; los cinco roles aparecen dentro del panel.",
+        "Crear guarda BCrypt y must_change_password=true; correo repetido responde 409.",
+        "Desactivar impide entrar y revoca access/refresh. No se permite baja propia ni del último administrador activo.",
+        "Restablecer genera una temporal válida aleatoria, la devuelve una vez y revoca sesiones previas.",
+        "La baja es lógica (activo=false); no elimina la cuenta ni sus datos históricos."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Primer acceso y configuración",
+      "items": [
+        "Login/refresh devuelven mustChangePassword; mientras sea true el servidor solo admite change-password, logout y refresh.",
+        "El guard redirige a /cambiar-contrasena: temporal, nueva y confirmación; al éxito recibe tokens nuevos y abre Inicio.",
+        "Configuración permite cambiar o quitar la foto propia; se refleja en la barra superior y en Inicio.",
+        "Claro/Oscuro se guarda en localStorage y se aplica antes de renderizar todas las vistas.",
+        "Cambiar contraseña abre modal: valida la actual, política, confirmación y que sea distinta; revoca sesiones previas."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Qué puede hacer cada rol",
+      "items": [
+        "ADMINISTRADOR: crear/consultar clientes; crear/consultar/activar/desactivar usuarios; restablecer contraseñas; consultar roles.",
+        "RECEPCIONISTA: crear y consultar clientes. GERENTE: consultar clientes, detalle y fotos.",
+        "MECANICO y AYUDANTE: Inicio sin accesos operativos asignados.",
+        "Todos: Configuración, foto propia, cambio de contraseña y salir; el primer acceso restringe temporalmente todo lo demás.",
+        "Editar permisos dinámicos es futuro; hoy los permisos operativos están definidos y validados en servidor."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Futuro",
+      "items": [
+        "Empresa, taller, cliente.empresa_id y cliente_taller existen como estructura, sin API de asociación.",
+        "Pendientes: permisos editables, caducidad de temporales, editar/dar de baja clientes y bitácora visible.",
+        "También pendientes: aviso de privacidad, correo transaccional, HTTPS de producción y suite automatizada integrada en CI."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Índice de nodos",
+      "items": [
+        "Tu espacio (Vue): Menú · Inicio por rol · pantallas. Identificador: pantallas.",
+        "Mensajero (Facade): auth · ClienteFacade · UsuarioFacade. Identificador: facade.",
+        "Entrada (nginx): Build Vue · /api → backend:8081. Identificador: nginx.",
+        "Acceso (JWT / RBAC): Activo · versión · primer acceso. Identificador: seguridad.",
+        "Recepción (Controller): Auth · Clientes · Usuarios · Perfil. Identificador: controller.",
+        "Reglas (Service): Validar · BCrypt · revocar · guardar. Identificador: service.",
+        "Archivo (Repository): Interfaces Spring Data JPA. Identificador: repository.",
+        "Datos (MySQL): Usuarios · clientes · sesiones. Identificador: mysql.",
+        "Cambios (Flyway): V1 → V2 → V3 al arrancar. Identificador: flyway.",
+        "Siguiente (modelo): Empresa · taller · cliente_taller. Identificador: futuro.",
+        "Fotos (disco privado): UUID · JPG / PNG / WEBP · 15 MB. Identificador: photo."
+      ]
+    }
+  ]
+}

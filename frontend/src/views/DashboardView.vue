@@ -1,0 +1,10 @@
+<script setup lang="ts">
+import {computed} from 'vue'
+import {UserPlus,Users,Shield,ArrowUpRight} from 'lucide-vue-next'
+import {authState} from '../services/auth'
+import Avatar from '../components/Avatar.vue'
+const today=new Intl.DateTimeFormat('es-MX',{dateStyle:'full'}).format(new Date())
+/** Tarjetas contadas a partir de los permisos reales de la cuenta. */
+const cards=computed(()=>{const role=authState.user?.role;return [...(['ADMINISTRADOR','RECEPCIONISTA'].includes(role||'')?[{to:'/clientes/nuevo',title:'Registrar un cliente nuevo',description:'Agrega sus datos y una fotografía opcional.',icon:UserPlus,color:'green'}]:[]),...(['ADMINISTRADOR','RECEPCIONISTA','GERENTE'].includes(role||'')?[{to:'/clientes',title:'Buscar un cliente',description:'Encuentra sus datos de contacto y dirección.',icon:Users,color:'blue'}]:[]),...(role==='ADMINISTRADOR'?[{to:'/usuarios',title:'Usuarios y roles',description:'Administra las cuentas y el acceso al taller.',icon:Shield,color:'peach'}]:[])]})
+</script>
+<template><div class="dashboard stack"><section class="card profile-card"><div class="profile-side"><span class="eyebrow">Hoy</span><p>{{today}}</p><span class="eyebrow">Correo</span><p class="mono">{{authState.user?.email}}</p></div><div class="profile-center"><Avatar/><h1>{{authState.user?.fullName}}</h1><span class="chip">{{authState.user?.role}}</span></div><div class="profile-side"><span class="eyebrow">Rol</span><p>{{authState.user?.role}}</p><span class="eyebrow">Accesos</span><p class="access-count">{{cards.length}}</p></div></section><header class="section-heading"><span class="eyebrow">Empieza por aquí</span><h2>¿Qué quieres hacer hoy?</h2></header><div v-if="cards.length" class="access-grid"><RouterLink v-for="card in cards" :key="card.to" :to="card.to" :class="['access-card',card.color]"><component :is="card.icon" :size="26"/><h3>{{card.title}}</h3><p>{{card.description}}</p><span>Abrir <ArrowUpRight :size="18"/></span></RouterLink></div><section v-else class="card empty-state"><h2>Aún no tienes accesos asignados</h2><p class="muted">Puedes actualizar tu perfil en Configuración.</p></section></div></template>

@@ -1,0 +1,12 @@
+.env
+node_modules/
+frontend/dist/
+backend/target/
+backend/data/clientes/
+*.log
+respaldo_*.sql
+
+backend/data/perfiles/
+.verification/
+
+.publicacion-tmp/
